@@ -1,0 +1,47 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+bin/
+include/
+lib/
+lib64/
+local/
+
+# Django stuff
+*.log
+*.pot
+*.mo
+*.js.map
+*.css.map
+staticfiles/ # Often collected at deployment, not tracked in repo
+media/ # User-uploaded files are typically stored in a persistent volume, not tracked in repo
+
+# Databases
+*.sqlite3
+*.db-journal
+
+# Environment files
+.env
+.flaskenv
+
+# IDE-specific files (optional, depends on your IDE)
+.idea/ # For PyCharm
+.vscode/ # For VS Code (if you don't share settings)
+*.swp
+
+# OS-specific files
+.DS_Store # macOS
+.AppleDouble # macOS
+.LSOverride # macOS
+
+# Testing and coverage
+.coverage
+htmlcov/
+.tox/

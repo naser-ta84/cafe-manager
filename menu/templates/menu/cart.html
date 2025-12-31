@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>سبد خرید شما | کافه دنج</title>
+    <style>
+        @import url('https://v1.fontapi.ir/css/Vazir');
+        body {
+            font-family: 'Vazir', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)),
+                        url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1887&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-10 text-white min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+        <div class="flex justify-between items-center mb-10">
+            <h1 class="text-3xl font-black text-amber-500">سفارش‌های شما</h1>
+            <a href="{% url 'menu:menu_list' %}" class="text-sm text-gray-400 hover:text-white transition-colors">← بازگشت به منو</a>
+        </div>
+
+        {% if cart_items %}
+            <div class="space-y-4 mb-10">
+                {% for item_data in cart_items %}
+                <div class="glass p-5 rounded-[2rem] flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        {% if item_data.item.image %}
+                        <img src="{{ item_data.item.image.url }}" class="w-16 h-16 rounded-2xl object-cover border border-white/10">
+                        {% endif %}
+                        <div>
+                            <h3 class="font-bold text-lg">{{ item_data.item.name }}</h3>
+                            <p class="text-amber-500 text-sm">{{ item_data.item.price }} تومان</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-6">
+                        <div class="flex items-center bg-black/30 rounded-xl px-3 py-1 border border-white/5">
+                            <span class="text-gray-400 ml-3 text-xs italic">تعداد:</span>
+                            <span class="font-bold text-amber-400">{{ item_data.quantity }}</span>
+                        </div>
+                        <div class="text-left min-w-[100px]">
+                            <p class="text-[10px] text-gray-500">جمع جزء</p>
+                            <p class="font-bold">{{ item_data.total_item_price }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="glass p-8 rounded-[2.5rem] border-t-4 border-amber-600 shadow-2xl">
+                <div class="flex justify-between items-center mb-8">
+                    <span class="text-xl text-gray-300">مبلغ قابل پرداخت:</span>
+                    <span class="text-3xl font-black text-amber-500">{{ total_price }} <small class="text-sm">تومان</small></span>
+                </div>
+
+                <form action="{% url 'menu:checkout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="w-full py-5 bg-amber-600 hover:bg-amber-500 text-white font-black text-xl rounded-2xl shadow-[0_15px_30px_rgba(217,119,6,0.3)] transition-all transform hover:-translate-y-1 active:scale-95">
+                        تایید و ثبت نهایی سفارش
+                    </button>
+                </form>
+                <p class="text-center text-gray-500 text-xs mt-4">با کلیک روی دکمه بالا، سفارش شما برای آشپزخانه ارسال می‌شود.</p>
+            </div>
+
+        {% else %}
+            <div class="text-center py-20 glass rounded-[3rem]">
+                <div class="text-6xl mb-6">🛒</div>
+                <h2 class="text-2xl font-bold mb-4">سبد خرید شما خالی است</h2>
+                <a href="{% url 'menu:menu_list' %}" class="inline-block px-8 py-3 bg-amber-600 rounded-xl font-bold">مشاهده منو</a>
+            </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>
